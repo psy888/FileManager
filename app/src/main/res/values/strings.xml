@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">FileManager</string>
+    <string name="item">файл</string>
+    <string name="empty">Пусто</string>
+    <string name="items">файлов</string>
+    <string name="create_folder">Создать папку</string>
+    <string name="create_file">Создать файл</string>
+    <string name="menu_header">Меню</string>
+    <string name="hint_create">Введите имя</string>
+    <string name="create">Создать</string>
+    <string name="cancel">Отменить</string>
+    <string name="free">Свободно</string>
+    <string name="total">Всего</string>
+    <string name="handlerNotFound">Приложение для открытия файла не найдено</string>
+    <string name="item234">файла</string>
+</resources>
