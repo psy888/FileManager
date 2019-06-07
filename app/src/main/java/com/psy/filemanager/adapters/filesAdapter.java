@@ -95,7 +95,7 @@ public class filesAdapter extends ArrayAdapter<File> {
         }
         else
         {
-            ivType.setImageResource(getFileIcon(f.getName()));
+            ivType.setImageResource(getFileIcon(f));
             tvInnerItemCnt.setVisibility(View.GONE);
 
             tvSize.setText(FStools.getSize(f));
@@ -132,52 +132,53 @@ public class filesAdapter extends ArrayAdapter<File> {
         return str;
     }
 
-    int getFileIcon(String fileName)
+    int getFileIcon(File fileName)
     {
 
-        if(fileName.lastIndexOf(".")!=-1){
-            String ext = getExtension(fileName);
+        String ext = FStools.getExtension(fileName);
+        if (ext != null) {
+
 //            Log.e("EXT" , "Extensions :"+  ext);
-            if(ext.contentEquals(".jpg")||
-                    ext.contentEquals(".png")||
-                    ext.contentEquals(".jpeg")||
-                    ext.contentEquals(".svg")||
-                    ext.contentEquals(".ico")){
+            if (ext.contentEquals("jpg") ||
+                    ext.contentEquals("png") ||
+                    ext.contentEquals("jpeg") ||
+                    ext.contentEquals("svg") ||
+                    ext.contentEquals("ico")) {
                 return R.drawable.file_picture;
             }
-            if(ext.contentEquals(".mp3")||
-                    ext.contentEquals(".wav")||
-                    ext.contentEquals(".flac")||
-                    ext.contentEquals(".acc")){
+            if (ext.contentEquals("mp3") ||
+                    ext.contentEquals("wav") ||
+                    ext.contentEquals("flac") ||
+                    ext.contentEquals("acc")) {
                 return R.drawable.file_music;
             }
-            if(ext.contentEquals(".txt")||
-                    ext.contentEquals(".info")||
-                    ext.contentEquals(".readme")){
+            if (ext.contentEquals("txt") ||
+                    ext.contentEquals("info") ||
+                    ext.contentEquals("readme")) {
                 return R.drawable.file_text2;
             }
-            if(ext.contentEquals(".xls")||
-                    ext.contentEquals(".xlsx")||
-                    ext.contentEquals(".xlsm")){
+            if (ext.contentEquals("xls") ||
+                    ext.contentEquals("xlsx") ||
+                    ext.contentEquals("xlsm")) {
                 return R.drawable.file_excel;
             }
-            if(ext.contentEquals(".doc")||
-                    ext.contentEquals(".docx")||
-                    ext.contentEquals(".rtf")){
+            if (ext.contentEquals("doc") ||
+                    ext.contentEquals("docx") ||
+                    ext.contentEquals("rtf")) {
                 return R.drawable.file_word;
             }
-            if(ext.contentEquals(".pdf")){
+            if (ext.contentEquals("pdf")) {
                 return R.drawable.file_pdf;
             }
-            if(ext.contentEquals(".zip")||
-                ext.contentEquals(".rar")){
+            if (ext.contentEquals("zip") ||
+                    ext.contentEquals("rar")) {
                 return R.drawable.file_zip;
             }
-            if(ext.contentEquals(".mov")||
-                    ext.contentEquals(".3gp")||
-                    ext.contentEquals(".mp4")||
-                    ext.contentEquals(".mkv")||
-                    ext.contentEquals(".tc")){
+            if (ext.contentEquals("mov") ||
+                    ext.contentEquals("3gp") ||
+                    ext.contentEquals("mp4") ||
+                    ext.contentEquals("mkv") ||
+                    ext.contentEquals("tc")) {
                 return R.drawable.file_video;
             }
         }
@@ -185,7 +186,7 @@ public class filesAdapter extends ArrayAdapter<File> {
         return R.drawable.file_empty;
     }
 
-    String getExtension(String name){
-        return name.substring(name.lastIndexOf("."));
-    }
+//    String getExtension(String name){
+//        return name.substring(name.lastIndexOf(".")+1);
+//    }
 }

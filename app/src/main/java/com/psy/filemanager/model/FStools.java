@@ -331,7 +331,7 @@ public class FStools {
         }
     }
 
-    public static String getExtansion(File f){
+    public static String getExtension(File f) {
         String name = f.getName();
         if(name.lastIndexOf(".") == -1){return null;}
 

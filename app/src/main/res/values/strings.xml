@@ -13,4 +13,5 @@
     <string name="total">Всего</string>
     <string name="handlerNotFound">Приложение для открытия файла не найдено</string>
     <string name="item234">файла</string>
+    <string name="activity_not_found">Приложени для открытия файла не установлено</string>
 </resources>

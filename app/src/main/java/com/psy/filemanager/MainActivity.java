@@ -2,6 +2,7 @@ package com.psy.filemanager;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.support.annotation.RequiresApi;
 import android.support.design.animation.AnimationUtils;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.FileProvider;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -202,6 +204,10 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 File clickedFile =((ArrayAdapter<File>) parent.getAdapter()).getItem(position);
+                if (mSelectedFiles != null && mSelectedFiles.size() == 0) {
+                    mSelectedFiles = null;
+                    toggleFabMenu();
+                }
                 // Selection mode - true / false
                 if(mSelectedFiles==null||position==0) {
                     //todo if clicked root element
@@ -212,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
                             return;
                         }
                         Log.e("TAG", clickedFile.getAbsolutePath());
-                        Log.e("TAG", mExternalRoot.getAbsolutePath());
+//                        Log.e("TAG", mExternalRoot.getAbsolutePath());
                         mCurrentDir = mAdapter.getItem(position);
 
                         /*
@@ -224,25 +230,48 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else{
                         //todo add intent to open file
+                        Context context = MainActivity.this;
+                        final Uri data = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID, clickedFile);
+//                        context.grantUriPermission(context.getPackageName(), data, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+                        String mimeType = mimeTypeMap.getMimeTypeFromExtension(FStools.getExtension(clickedFile));
+
+                        Log.d("MIME" , "Mime type : " +mimeType);
+
+                        try {
+                            final Intent intent = new Intent(Intent.ACTION_VIEW)
+                                    .setDataAndType(data, mimeType)
+                                    .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                            context.startActivity(intent);
+                            Log.d("intent", intent.toString());
+
+                        } catch (ActivityNotFoundException ex) {
+                            Toast.makeText(context, R.string.activity_not_found, Toast.LENGTH_SHORT).show();
+                        }
+                        /*
                         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
                         Intent intent = new Intent(Intent.ACTION_VIEW);
-                        String mimeType = mimeTypeMap.getMimeTypeFromExtension(FStools.getExtansion(clickedFile));
-                        Log.d("MIME" , "Mime type : " +mimeType);
+
                         intent.setDataAndType(Uri.fromFile(clickedFile),mimeType);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        try{
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);*/
+                       /* try{
                             startActivity(intent);
                         }catch (ActivityNotFoundException ex)
                         {
                             Toast.makeText(MainActivity.this, R.string.handlerNotFound, Toast.LENGTH_SHORT).show();
-                        }
+                        }*/
                     }
                 }else{
 //                    if(position!=0) {//do not select parent
+
                     if (!FStools.isSelected(clickedFile)) { // add Selection
                         mSelectedFiles.add(clickedFile);
                     } else { // Remove selection
                         mSelectedFiles.remove(clickedFile);
+                        if (mSelectedFiles.size() == 0) {
+                            toggleFabMenu();
+                            mSelectedFiles = null;
+                        }
                     }
                     ((ArrayAdapter<File>) parent.getAdapter()).notifyDataSetInvalidated();
 //                    }
